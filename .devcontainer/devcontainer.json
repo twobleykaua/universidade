@@ -1,0 +1,24 @@
+{
+    "name": "GCC-14 Environment",
+    "build": {
+      "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+      "vscode": {
+        "settings": {
+          "terminal.integrated.shell.linux": "/bin/bash"
+        },
+        "extensions": [
+          "ms-vscode.cpptools", // Suporte a C/C++
+          "twxs.cmake", // Extensão para CMake
+          "ms-azuretools.vscode-docker", // Suporte ao Docker
+          "ms-vscode.makefile-tools", // Suporte para Makefiles
+          "dbaeumer.vscode-eslint",
+          "ms-python.python",
+          "ms-python.vscode-pylance"
+        ]
+      }
+    },
+   
+    "postCreateCommand": ""
+  }
