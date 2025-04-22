@@ -1,75 +1,80 @@
-import random
+import time
+import os
 
 class PersonagemGame:
-    def __init__(self, nome, classe, nivel, vida, poder):
+    def __init__(self, nome, classe, vida, ataque):
         self.nome = nome
         self.classe = classe
-        self.nivel = nivel
         self.vida = vida
-        self.poder = poder
+        self.ataque = ataque
         self.inventario = []
 
-    def atacar(self, outro):
-        dano = random.randint(10, 30) + self.poder
-        outro.vida -= dano
-        print(f"⚔️ {self.nome} atacou {outro.nome}, causando {dano} de dano!")
-
-    def habilidade_especial(self, outro):
-        dano = self.nivel * 20 + self.poder
-        outro.vida -= dano
-        print(f"💥 {self.nome} usou HABILIDADE ESPECIAL em {outro.nome} causando {dano} de dano devastador!")
-
-    def status(self):
-        print(f"\n📜 STATUS de {self.nome}:")
-        print(f"Classe: {self.classe}")
-        print(f"Nível: {self.nivel}")
-        print(f"Vida: {max(self.vida, 0)}")  # Evita mostrar vida negativa
-        print(f"Poder Base: {self.poder}")
-        print(f"Inventário: {', '.join(self.inventario) if self.inventario else 'Vazio'}")
+    def exibir_status(self):
+        print(f"🧍 Nome: {self.nome}")
+        print(f"🌀 Classe: {self.classe}")
+        print(f"❤️ Vida: {self.vida} HP")
+        print(f"⚔️ Ataque: {self.ataque}")
+        print(f"🎒 Inventário: {', '.join(self.inventario)}")
         print("-" * 40)
 
-    def esta_vivo(self):
-        return self.vida > 0
-
-
-# Criando personagens
-dark_lord = PersonagemGame("Azrakul", "Lorde das Sombras", 12, 180, 25)
-dark_lord.inventario.extend(["Espada Sombria", "Capa da Invisibilidade", "Orbe da Morte"])
-
-guardia = PersonagemGame("Elyndra", "Arcanista Sagrada", 11, 160, 30)
-guardia.inventario.extend(["Cajado da Luz Eterna", "Elmo de Prata", "Anel da Cura Divina"])
-
-# Status inicial
-dark_lord.status()
-guardia.status()
-
-# Loop de combate até um morrer
-round_num = 1
-while dark_lord.esta_vivo() and guardia.esta_vivo():
-    print(f"\n🔥 ROUND {round_num}")
-    if random.choice([True, False]):
-        dark_lord.atacar(guardia)
-    else:
-        dark_lord.habilidade_especial(guardia)
-
-    if guardia.esta_vivo():
-        if random.choice([True, False]):
-            guardia.atacar(dark_lord)
+    def atacar(self, outro_personagem):
+        print(f"🔥 {self.nome} ataca {outro_personagem.nome} causando 💥 {self.ataque} de dano!")
+        outro_personagem.vida -= self.ataque
+        if outro_personagem.vida <= 0:
+            outro_personagem.vida = 0
+            print(f"💀 {outro_personagem.nome} foi derrotado!")
         else:
-            guardia.habilidade_especial(dark_lord)
-    else:
-        print(f"\n💀 {guardia.nome} foi derrotada!")
+            print(f"❤️ {outro_personagem.nome} agora tem {outro_personagem.vida} de vida.")
+        print("~" * 40)
+        time.sleep(1)
+
+# Função para limpar tela (compatível com Windows e Unix)
+def limpar_tela():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+# Criando os personagens
+liu_kang = PersonagemGame("Liu Kang", "🧘 Monge Shaolin", 100, 18)
+scorpion = PersonagemGame("Scorpion", "🦂 Ninja Infernal", 100, 15)
+
+# Inventários (decorativos)
+liu_kang.inventario.append("🔥 Chute Flamejante")
+scorpion.inventario.append("🪝 Lança Infernal")
+
+# Começo da luta
+round_atual = 1
+limpar_tela()
+print("🎮 BATALHA MORTAL KOMBAT: Liu Kang VS Scorpion!")
+print("=" * 40)
+time.sleep(2)
+
+# Luta até Scorpion ser derrotado
+while scorpion.vida > 0 and liu_kang.vida > 0:
+    limpar_tela()
+    print(f"\n🥊 ROUND {round_atual}")
+    print("=" * 40)
+
+    # Liu Kang ataca primeiro
+    liu_kang.atacar(scorpion)
+    if scorpion.vida <= 0:
         break
 
-    # Mostrar status dos dois
-    dark_lord.status()
-    guardia.status()
-    round_num += 1
+    # Scorpion ataca de volta
+    scorpion.atacar(liu_kang)
+    if liu_kang.vida <= 0:
+        print("❌ Liu Kang foi derrotado! Scorpion venceu!")
+        break
 
-# Verificando quem venceu
-if dark_lord.esta_vivo():
-    print(f"\n🏆 {dark_lord.nome} é o grande vencedor!")
-elif guardia.esta_vivo():
-    print(f"\n🏆 {guardia.nome} é a campeã!")
+    # Exibe status dos dois
+    print("📊 Status após o round:")
+    liu_kang.exibir_status()
+    scorpion.exibir_status()
+
+    round_atual += 1
+    time.sleep(3)
+
+# Resultado final
+print("\n🏁 FIM DE COMBATE")
+if liu_kang.vida > 0:
+    print("🏆 Liu Kang é o grande vencedor! 🔥🔥 FATALITY!")
 else:
-    print("\n⚔️ Ambos caíram na batalha! Foi um empate mortal!")
+    print("☠️ Scorpion venceu... Vingança das Sombras! 💀")
