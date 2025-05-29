@@ -1,0 +1,16 @@
+import player
+# from player import dados,atacar,equipar
+from player import * #importe tudo
+
+def mmain():
+# dados()
+# atacar()
+# equipar()
+    player.atacar()
+    player.dados()
+    player.equipar()
+
+if __name__ == "__main__":
+    ...
+    # print("eu sou o main")
+    # print(__name__)
