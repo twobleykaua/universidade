@@ -1,8 +1,10 @@
-from abc import ABC, abstractmethod
-class Jogador(ABC):
+from jogador import Jogador
+
+class Cavaleiro(Jogador):
     def __init__(self, nome:str, dano:int):
-        self.nome = nome
-        self.dano = dano
+        super().__init__(nome, dano)
+
+
         self.__saude = 100 #encapsulamento
 
         @property #decorador retorna apenas como propriedade
@@ -13,15 +15,14 @@ class Jogador(ABC):
         def saude(self, valor):
              self.saude += max(0, valor)
             
-        @ abstractmethod
         def atacar(self):
             print(f"{self.nome} atacou!")
-
-        @ abstractmethod
+            print("atacar Polimorfico")
+ 
         def defender(self):
                 print(f"{self.nome} defendeu!")
+                print("defender Polimorfico")
 
 if __name__ == '__main__':
-    p1 = Jogador("jhow", 50)
-    p1.atacar()
-    print(p1.get_saude())
+        cavaleiro = Cavaleiro("rei Artur, 80")
+        print(cavaleiro.atacar())
