@@ -1,4 +1,4 @@
-from jogadores.jogador import Jogador
+from jogadores  .jogador import Jogador
 
 class Cavaleiro(Jogador):
      def __init__(self, nome:str, dano:int, resistencia=85, armadura="Diamante"):
